@@ -187,7 +187,7 @@ pnpm dev
 
 ## 📋 Prerequisites
 
-- Node.js ^20.19.0 or >=22.12.0, with npm 10+
+- Node.js ^20.19.0 or >=22.12.0, with pnpm 10 (Corepack recommended)
 - Supabase CLI
 - ngrok (for local webhook development)
 
