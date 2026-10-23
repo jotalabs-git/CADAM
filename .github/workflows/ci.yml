@@ -34,5 +34,9 @@ jobs:
         run: pnpm typecheck
       - name: Lint
         run: pnpm lint
+      - name: Run tests and collect coverage
+        run: pnpm test:coverage
+      - name: Verify LCOV output
+        run: test -s coverage/lcov.info
       - name: Build
         run: pnpm build
