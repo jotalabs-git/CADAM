@@ -1,6 +1,11 @@
-# Contributing to CADAM
+# Contributing to the JotaLabs CADAM fork
 
-When contributing to this repository, please first discuss the change you wish to make via [issues](https://github.com/Adam-CAD/CADAM/issues) before making a change.
+This repository is derived from [Adam-CAD/CADAM](https://github.com/Adam-CAD/CADAM). Contributions focused on local execution, configurable AI providers, CAD reliability, and 3D-print workflows are welcome. Ollama and printer integrations are proposals, not current features.
+
+For issues specifically about this fork, use this repository. For upstream defects, first check whether they have been reported upstream.
+
+
+When contributing to this repository, please first discuss the change you wish to make via [issues](https://github.com/jotalabs-git/CADAM/issues) before making a change.
 
 Please note we have a [code of conduct](CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
 
