@@ -99,6 +99,8 @@ export function useOpenSCAD() {
       teardownTimeoutRef.current = null;
     }
     const worker = getWorker();
+    const writtenFiles = writtenFilesRef.current;
+    const pendingRequests = pendingRequestsRef.current;
     worker.addEventListener('message', eventHandler);
 
     return () => {
@@ -106,11 +108,11 @@ export function useOpenSCAD() {
       teardownTimeoutRef.current = window.setTimeout(() => {
         workerRef.current?.terminate();
         workerRef.current = null;
-        writtenFilesRef.current.clear();
-        pendingRequestsRef.current.forEach((pending) => {
+        writtenFiles.clear();
+        pendingRequests.forEach((pending) => {
           pending.reject(new Error('Worker terminated'));
         });
-        pendingRequestsRef.current.clear();
+        pendingRequests.clear();
         teardownTimeoutRef.current = null;
       }, 0);
     };
