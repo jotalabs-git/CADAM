@@ -155,7 +155,7 @@ function UserBubble({
         .filter((p) => p.type === 'text')
         .map((p) => p.text)
         .join(''),
-    [message.parts],
+    [message],
   );
   const [input, setInput] = useState(text);
 
@@ -167,7 +167,7 @@ function UserBubble({
           typeof p.mediaType === 'string' &&
           p.mediaType.startsWith('image/'),
       ),
-    [message.parts],
+    [message],
   );
   const meshContextParts = useMemo(
     () =>
@@ -179,7 +179,7 @@ function UserBubble({
           { type: 'data-mesh-context' }
         > => p.type === 'data-mesh-context',
       ),
-    [message.parts],
+    [message],
   );
   const meshPreferencesParts = useMemo(
     () =>
@@ -191,7 +191,7 @@ function UserBubble({
           { type: 'data-mesh-preferences' }
         > => p.type === 'data-mesh-preferences',
       ),
-    [message.parts],
+    [message],
   );
 
   const branchIndex = message.siblings.findIndex((b) => b.id === message.id);
@@ -463,12 +463,12 @@ function AssistantBubble({
   );
   const answerText = useMemo(
     () => message.parts.map(answerUserMessageText).filter(Boolean).join(''),
-    [message.parts],
+    [message],
   );
   const copyText = answerText || text;
   const hasAnswerUserMessage = useMemo(
     () => message.parts.some((part) => !!answerUserMessageText(part)?.trim()),
-    [message.parts],
+    [message],
   );
   const branchIndex = message.siblings.findIndex((b) => b.id === message.id);
   const leafNodes = useMemo(
