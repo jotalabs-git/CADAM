@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint . --ignore-pattern 'supabase/**'",
+    "lint": "eslint . --max-warnings 0 --ignore-pattern 'supabase/**'",
     "typecheck": "tsc -b --noEmit",
     "format": "prettier --write .",
     "preview": "vite preview",
@@ -138,7 +138,7 @@
   },
   "lint-staged": {
     "!(supabase/**)*.{js,jsx,ts,tsx}": [
-      "eslint",
+      "eslint --max-warnings 0",
       "prettier --write"
     ],
     "supabase/**/*.{js,ts}": [
