@@ -1,3 +1,8 @@
+> [!NOTE]
+> **JotaLabs community fork.** This repository is a fork of [Adam-CAD/CADAM](https://github.com/Adam-CAD/CADAM). The original authors and contributors retain credit for their work. This fork is exploring local-first development, configurable AI model providers (including a possible Ollama integration), and future 3D-printing workflows. **These are roadmap goals, not implemented features.** The upstream demo at [adam.new/cadam](https://adam.new/cadam) is maintained by the original project and is not a JotaLabs deployment.
+>
+> Contributions and issue reports about this fork are welcome. The source remains licensed under GPL-3.0; see [LICENSE](LICENSE) and the upstream project for attribution.
+
 <div align="center">
   <a href="https://adam.new/cadam">
     <img src="./public/cadam-launch.gif" alt="CADAM — text-to-CAD live demo" width="100%">
