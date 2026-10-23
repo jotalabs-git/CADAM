@@ -163,6 +163,10 @@ A showcase of what CADAM builds from a single plain-language description — fro
   </tbody>
 </table>
 
+## 📦 Package manager (JotaLabs fork)
+
+This fork uses **pnpm 10**. Enable it with `corepack enable` and use `pnpm install`, `pnpm dev`, `pnpm build`, `pnpm lint`, and `pnpm typecheck`. The existing `package-lock.json` is temporarily retained for migration; run `pnpm import` and commit `pnpm-lock.yaml` before removing the old lockfile. CI performs this import until the pnpm lockfile is checked in. No npm commands are needed for local development.
+
 ## 🚀 Quick Start
 
 ```bash
@@ -171,14 +175,14 @@ git clone https://github.com/Adam-CAD/CADAM.git
 cd CADAM
 
 # Install dependencies
-npm install
+pnpm install
 
 # Start Supabase
-npx supabase start
-npx supabase functions serve --no-verify-jwt
+pnpm dlx supabase start
+pnpm dlx supabase functions serve --no-verify-jwt
 
 # Start the development server
-npm run dev
+pnpm dev
 ```
 
 ## 📋 Prerequisites
@@ -223,7 +227,7 @@ CADAM uses public URLs for provider callbacks and local signed storage URLs:
 1. Install ngrok if you haven't already:
 
    ```bash
-   npm install -g ngrok
+   pnpm install -g ngrok
    # or
    brew install ngrok
    ```
@@ -249,14 +253,14 @@ CADAM uses public URLs for provider callbacks and local signed storage URLs:
 ### Install Dependencies
 
 ```bash
-npm i
+pnpm install
 ```
 
 ### Start Supabase Services
 
 ```bash
-npx supabase start
-npm run dev
+pnpm dlx supabase start
+pnpm dev
 ```
 
 ## 🛠️ Built With
