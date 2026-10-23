@@ -33,3 +33,7 @@ dist-ssr
 # other secret files
 .env.local
 .env.langfuse
+
+# Test coverage
+coverage/
+.nyc_output/
