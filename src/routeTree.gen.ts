@@ -28,6 +28,7 @@ import { Route as ApiFalWebhookRouteImport } from './routes/api/fal-webhook';
 import { Route as ApiDeleteUserRouteImport } from './routes/api/delete-user';
 import { Route as ApiCreativeChatRouteImport } from './routes/api/creative-chat';
 import { Route as ApiBillingStatusRouteImport } from './routes/api/billing-status';
+import { Route as ApiOllamaModelsRouteImport } from './routes/api/ollama-models';
 import { Route as ApiBillingProductsRouteImport } from './routes/api/billing-products';
 import { Route as ApiBillingCheckoutRouteImport } from './routes/api/billing-checkout';
 import { Route as LayoutSubscriptionRouteImport } from './routes/_layout/subscription';
@@ -131,7 +132,14 @@ const ApiCreativeChatRoute = ApiCreativeChatRouteImport.update({
 } as any);
 const ApiBillingStatusRoute = ApiBillingStatusRouteImport.update({
   id: '/api/billing-status',
+  id: '/api/ollama-models',
   path: '/api/billing-status',
+  path: '/api/ollama-models',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const ApiOllamaModelsRoute = ApiOllamaModelsRouteImport.update({
+  id: '/api/ollama-models',
+  path: '/api/ollama-models',
   getParentRoute: () => rootRouteImport,
 } as any);
 const ApiBillingProductsRoute = ApiBillingProductsRouteImport.update({
@@ -205,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/api/billing-checkout': typeof ApiBillingCheckoutRoute;
   '/api/billing-products': typeof ApiBillingProductsRoute;
   '/api/billing-status': typeof ApiBillingStatusRoute;
+  '/api/ollama-models': typeof ApiOllamaModelsRoute;
   '/api/creative-chat': typeof ApiCreativeChatRoute;
   '/api/delete-user': typeof ApiDeleteUserRoute;
   '/api/fal-webhook': typeof ApiFalWebhookRoute;
@@ -235,6 +244,7 @@ export interface FileRoutesByTo {
   '/api/billing-checkout': typeof ApiBillingCheckoutRoute;
   '/api/billing-products': typeof ApiBillingProductsRoute;
   '/api/billing-status': typeof ApiBillingStatusRoute;
+  '/api/ollama-models': typeof ApiOllamaModelsRoute;
   '/api/creative-chat': typeof ApiCreativeChatRoute;
   '/api/delete-user': typeof ApiDeleteUserRoute;
   '/api/fal-webhook': typeof ApiFalWebhookRoute;
@@ -267,6 +277,7 @@ export interface FileRoutesById {
   '/api/billing-checkout': typeof ApiBillingCheckoutRoute;
   '/api/billing-products': typeof ApiBillingProductsRoute;
   '/api/billing-status': typeof ApiBillingStatusRoute;
+  '/api/ollama-models': typeof ApiOllamaModelsRoute;
   '/api/creative-chat': typeof ApiCreativeChatRoute;
   '/api/delete-user': typeof ApiDeleteUserRoute;
   '/api/fal-webhook': typeof ApiFalWebhookRoute;
@@ -300,6 +311,7 @@ export interface FileRouteTypes {
     | '/api/billing-checkout'
     | '/api/billing-products'
     | '/api/billing-status'
+    | '/api/ollama-models'
     | '/api/creative-chat'
     | '/api/delete-user'
     | '/api/fal-webhook'
@@ -330,6 +342,7 @@ export interface FileRouteTypes {
     | '/api/billing-checkout'
     | '/api/billing-products'
     | '/api/billing-status'
+    | '/api/ollama-models'
     | '/api/creative-chat'
     | '/api/delete-user'
     | '/api/fal-webhook'
@@ -361,6 +374,7 @@ export interface FileRouteTypes {
     | '/api/billing-checkout'
     | '/api/billing-products'
     | '/api/billing-status'
+    | '/api/ollama-models'
     | '/api/creative-chat'
     | '/api/delete-user'
     | '/api/fal-webhook'
@@ -391,6 +405,7 @@ export interface RootRouteChildren {
   ApiBillingCheckoutRoute: typeof ApiBillingCheckoutRoute;
   ApiBillingProductsRoute: typeof ApiBillingProductsRoute;
   ApiBillingStatusRoute: typeof ApiBillingStatusRoute;
+  ApiOllamaModelsRoute: typeof ApiOllamaModelsRoute;
   ApiCreativeChatRoute: typeof ApiCreativeChatRoute;
   ApiDeleteUserRoute: typeof ApiDeleteUserRoute;
   ApiFalWebhookRoute: typeof ApiFalWebhookRoute;
@@ -533,9 +548,20 @@ declare module '@tanstack/react-router' {
     };
     '/api/billing-status': {
       id: '/api/billing-status';
+      id: '/api/ollama-models';
       path: '/api/billing-status';
+      path: '/api/ollama-models';
       fullPath: '/api/billing-status';
+      fullPath: '/api/ollama-models';
       preLoaderRoute: typeof ApiBillingStatusRouteImport;
+      preLoaderRoute: typeof ApiOllamaModelsRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    '/api/ollama-models': {
+      id: '/api/ollama-models';
+      path: '/api/ollama-models';
+      fullPath: '/api/ollama-models';
+      preLoaderRoute: typeof ApiOllamaModelsRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     '/api/billing-products': {
@@ -666,6 +692,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiBillingCheckoutRoute: ApiBillingCheckoutRoute,
   ApiBillingProductsRoute: ApiBillingProductsRoute,
   ApiBillingStatusRoute: ApiBillingStatusRoute,
+  ApiOllamaModelsRoute: ApiOllamaModelsRoute,
   ApiCreativeChatRoute: ApiCreativeChatRoute,
   ApiDeleteUserRoute: ApiDeleteUserRoute,
   ApiFalWebhookRoute: ApiFalWebhookRoute,
