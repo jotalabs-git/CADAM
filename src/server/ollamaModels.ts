@@ -13,9 +13,10 @@ type ShowResponse = { capabilities?: string[] };
 export async function discoverOllamaModels(
   fetcher: typeof fetch = fetch,
 ): Promise<OllamaModel[]> {
-  const base = (env('OLLAMA_BASE_URL') || 'http://127.0.0.1:11434/v1')
-    .replace(new RegExp('/v1/?
-    .replace(new RegExp('/;
+  const configured = env('OLLAMA_BASE_URL') || 'http://127.0.0.1:11434/v1';
+  const baseUrl = new URL(configured);
+  baseUrl.pathname = baseUrl.pathname.replace(/\/v1\/?$/, '').replace(/\/$/, '');
+  const base = baseUrl.toString().replace(/\/$/, '');
   const tags = await fetcher(`${base}/api/tags`, {
     signal: AbortSignal.timeout(3000),
   });
