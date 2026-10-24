@@ -1,6 +1,7 @@
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { chatTools, type AppUIMessage, type AppTools } from '@shared/chatAi';
 import { cleanAssistantText, getParametricText } from '@shared/parametricParts';
 import { imageIdFromFilename, imageStoragePath } from '@shared/imageRefs';
@@ -448,12 +449,14 @@ type ChatProviders = {
   anthropic: () => AnthropicProvider;
   google: () => GoogleProvider;
   openrouter: () => ReturnType<typeof createOpenRouter>;
+  ollama: () => ReturnType<typeof createOpenAICompatible>;
 };
 
 function createChatProviders(): ChatProviders {
   let anthropic: AnthropicProvider | undefined;
   let google: GoogleProvider | undefined;
   let openrouter: ReturnType<typeof createOpenRouter> | undefined;
+  let ollama: ReturnType<typeof createOpenAICompatible> | undefined;
   return {
     anthropic: () => {
       if (!anthropic) {
@@ -477,6 +480,13 @@ function createChatProviders(): ChatProviders {
       });
       return openrouter;
     },
+    ollama: () => {
+      ollama ??= createOpenAICompatible({
+        name: 'ollama',
+        baseURL: env('OLLAMA_BASE_URL') || 'http://127.0.0.1:11434/v1',
+      });
+      return ollama;
+    },
   };
 }
 
@@ -496,6 +506,10 @@ function buildChatModel(
 ): { model: LanguageModel; providerOptions?: ProviderOptions } {
   const hasCappedThinkingBudget =
     thinking && thinkingBudget !== THINKING_BUDGET_TOKENS;
+
+  if (providerFor(modelId) === 'ollama') {
+    return { model: providers.ollama()(modelId.slice('ollama/'.length)) };
+  }
 
   if (providerFor(modelId) === 'openrouter') {
     return {
@@ -1080,14 +1094,19 @@ export async function handleAiChatRequest(req: Request) {
     );
   }
 
+  // Ollama runs locally and has no metered provider cost. Keep the SaaS
+  // billing gate for remote providers only.
+  const isLocalModel = conversation.type === 'parametric' &&
+    providerFor(normalizeModelId(rawBody.model)) === 'ollama';
+
   // Pre-flight balance gate. A chat costs at least 1 billing token, so a
   // total of 0 means we cannot let the stream start. We don't try to
   // estimate the exact cost up front — chat is variable, and the billing
   // service drains the remainder to zero if the actual usage exceeds
   // what's left (see onFinish below).
   try {
-    const status = await billing.getStatus(user.email);
-    if (status.tokens.total <= 0) {
+    const status = isLocalModel ? null : await billing.getStatus(user.email);
+    if (status && status.tokens.total <= 0) {
       return jsonResponse(
         {
           error: 'insufficient_tokens',
@@ -1561,7 +1580,7 @@ export async function handleAiChatRequest(req: Request) {
               // will block the next request. Not an error path —
               // intentional terminal state. Runs after the persist above so
               // its latency never delays the row the client is waiting on.
-              await billing.consume(user.email!, {
+              if (!isLocalModel) await billing.consume(user.email!, {
                 tokens: billingTokens,
                 operation:
                   conversation.type === 'creative' ? 'chat' : 'parametric',
