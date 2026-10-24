@@ -2,11 +2,12 @@
 // imports so the choices it makes for each model can be unit-tested with
 // node:test (see modelCapabilities.test.ts).
 
-export type ChatProvider = 'anthropic' | 'google' | 'openrouter';
+export type ChatProvider = 'anthropic' | 'google' | 'openrouter' | 'ollama';
 
 export function providerFor(modelId: string): ChatProvider {
   if (modelId.startsWith('anthropic/')) return 'anthropic';
   if (modelId.startsWith('google/')) return 'google';
+  if (modelId.startsWith('ollama/')) return 'ollama';
   return 'openrouter';
 }
 
@@ -60,7 +61,7 @@ function rejectsForcedToolChoice(modelId: string): boolean {
 
 // Whether a model accepts a forced `tool_choice` (type: "tool" / "any").
 export function supportsForcedToolChoice(modelId: string): boolean {
-  return !rejectsForcedToolChoice(modelId);
+  return providerFor(modelId) !== 'ollama' && !rejectsForcedToolChoice(modelId);
 }
 
 /**
