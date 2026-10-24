@@ -105,7 +105,8 @@
     "three": "^0.160.1",
     "three-stdlib": "^2.36.1",
     "vaul": "^1.0.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@ai-sdk/openai-compatible": "^2.0.81"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
