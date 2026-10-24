@@ -237,6 +237,15 @@ export function getInitials(fullName: string | null) {
 
 export const PARAMETRIC_MODELS: ModelConfig[] = [
   {
+    id: 'ollama/qwen3:8b',
+    name: 'Qwen3 8B (local)',
+    description: 'Local Ollama model; requires qwen3:8b installed and Ollama running',
+    provider: 'Ollama',
+    supportsTools: true,
+    supportsThinking: false,
+    supportsVision: false,
+  },
+  {
     id: 'google/gemini-4-argon',
     name: 'Gemini 4 Argon',
     description: 'Latest Google model with excellent multi-modal capabilities',
