@@ -459,7 +459,7 @@ function AssistantBubble({
             .map((p) => cleanAssistantText(p.text))
             .filter((visibleText) => !!visibleText)
             .join(''),
-    [conversation.type, message.parts, lastParametricBuildIndex],
+    [conversation.type, message, lastParametricBuildIndex],
   );
   const answerText = useMemo(
     () => message.parts.map(answerUserMessageText).filter(Boolean).join(''),
