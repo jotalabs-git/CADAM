@@ -131,6 +131,17 @@ describe('usesAdaptiveAnthropicThinking', () => {
   });
 });
 
+describe('Ollama compatibility', () => {
+  it('routes local models and does not force unsupported tool_choice', () => {
+    assert.equal(providerFor('ollama/qwen3:8b'), 'ollama');
+    assert.equal(supportsForcedToolChoice('ollama/qwen3:8b'), false);
+    assert.deepEqual(buildStep('ollama/qwen3:8b'), {
+      forceBuildToolChoice: false,
+      disableThinkingForBuildStep: false,
+    });
+  });
+});
+
 describe('providerFor', () => {
   it('routes by id prefix', () => {
     assert.equal(providerFor('anthropic/claude-opus-5.5'), 'anthropic');
