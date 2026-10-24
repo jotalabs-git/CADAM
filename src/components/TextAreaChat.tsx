@@ -64,6 +64,17 @@ import { useMeshFiles } from '@/contexts/MeshFilesContext';
 import { AnimatePresence, motion } from 'framer-motion';
 import { apiJson } from '@/services/api';
 import { z } from 'zod';
+import type { ModelConfig } from '@/types/misc';
+
+const ollamaModelsSchema = z.object({
+  available: z.boolean(),
+  models: z.array(z.object({
+    id: z.string(),
+    name: z.string(),
+    supportsTools: z.boolean(),
+    supportsVision: z.boolean(),
+  })),
+});
 
 const promptResponseSchema = z.object({ prompt: z.string().optional() });
 
@@ -652,12 +663,36 @@ function TextAreaChat({
     },
   };
 
+  const [localModels, setLocalModels] = useState<ModelConfig[]>([]);
+  useEffect(() => {
+    if (type !== 'parametric') return;
+    let active = true;
+    const loadModels = async () => {
+      try {
+        const result = await apiJson('ollama-models', {}, ollamaModelsSchema);
+        if (!active) return;
+        setLocalModels(result.models.map((entry) => ({
+          ...entry,
+          provider: 'Ollama',
+          description: entry.supportsTools
+            ? 'Installed locally · tool calling supported'
+            : 'Tool calling unavailable · cannot build CAD models',
+          disabled: !entry.supportsTools,
+        })));
+      } catch {
+        if (active) setLocalModels([]);
+      }
+    };
+    void loadModels();
+    return () => { active = false; };
+  }, [type]);
+
   const memoizedModels = useMemo(() => {
     if (type === 'creative') {
       return CREATIVE_MODELS;
     }
-    return PARAMETRIC_MODELS;
-  }, [type]);
+    return [...localModels, ...PARAMETRIC_MODELS];
+  }, [type, localModels]);
 
   // ------------------------------------------------------------
   // Placeholder – Typed-out Animation
