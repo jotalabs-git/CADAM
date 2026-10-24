@@ -375,5 +375,6 @@ export const CREATIVE_MODELS: ModelConfig[] = [
 // to `true` so older saved rows still render normally.
 export function parametricModelSupportsVision(modelId: string): boolean {
   const cfg = PARAMETRIC_MODELS.find((m) => m.id === modelId);
+  if (modelId.startsWith('ollama/')) return false;
   return cfg?.supportsVision !== false;
 }
