@@ -548,13 +548,9 @@ declare module '@tanstack/react-router' {
     };
     '/api/billing-status': {
       id: '/api/billing-status';
-      id: '/api/ollama-models';
       path: '/api/billing-status';
-      path: '/api/ollama-models';
       fullPath: '/api/billing-status';
-      fullPath: '/api/ollama-models';
       preLoaderRoute: typeof ApiBillingStatusRouteImport;
-      preLoaderRoute: typeof ApiOllamaModelsRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     '/api/ollama-models': {
